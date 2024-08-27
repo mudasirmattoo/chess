@@ -32,7 +32,7 @@ Git
 Clone the Repository
 bash
 Copy code
-git clone https://github.com/yourusername/your-repository.git
+git clone https://github.com/mudasirmattoo/chess.git
 cd your-repository
 Set Up the Virtual Environment
 bash
