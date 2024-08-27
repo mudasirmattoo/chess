@@ -44,8 +44,9 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate.
 Install Dependencies.
 
 pip install -r requirements.txt .
-Apply Migrations.
 
+
+Apply Migrations.
 python manage.py migrate .
 Run the Development Server.
 
