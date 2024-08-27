@@ -25,7 +25,8 @@ The game ends when one player eliminates all of the opponent’s pieces.
 
 Installation:
 Prerequisites:
-Python 3.8 or higher
+Python 3.8 or higher,
+
 Django
 Tailwind CSS (via CDN)
 Git
