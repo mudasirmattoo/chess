@@ -27,28 +27,34 @@ The game ends when one player eliminates all of the opponent’s pieces.
 Installation:
 Prerequisites:
 Python 3.8 or higher,
-
 Django,
 Tailwind CSS (via CDN),
 Git,
 
 Clone the Repository.
 
-git clone https://github.com/mudasirmattoo/chess.git
+git clone https://github.com/mudasirmattoo/chess.git  .
+
 cd chess.
+
 Set Up the Virtual Environment.
 
 
 python -m venv env.
+
 source venv/bin/activate  # On Windows: venv\Scripts\activate.
+
 Install Dependencies.
 
 pip install -r requirements.txt .
 
 
 Apply Migrations.
+
 python manage.py migrate .
+
 Run the Development Server.
 
 python manage.py runserver  .
+
 The application will be available at http://127.0.0.1:8000/.
