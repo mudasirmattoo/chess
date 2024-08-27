@@ -1,0 +1,355 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/5312aac142.js" crossorigin="anonymous"></script>
+  </head>
+  <body
+    class="bg-black"
+  >
+  
+  <nav>
+    <div class=" sticky top-0 bg-black bg-opacity-90">
+        <div class="text-violet-600 font-sans  p-5">
+            <ul class="flex flex-row space-x-32 justify-between mx-auto w-3/4">
+                <li><a href="" class="text-3xl font-extrabold">HeroicChess</a></li>
+                <li><i class="fa-solid fa-chess-queen text-2xl"></i>
+                </li>
+                <a href="mailto:mudasirmmattoo@gmail.com" class="hover:text-violet-400">mudasirmmattoo@gmail.com</a>
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+  <div class="mx-auto w-3/4 text-white flex justify-center items-center h-screen">
+    <div class="text-center">
+      <h1 class="text-3xl mb-4 font-bold text-violet-600">Advanced Chess-like Game</h1>
+      <div id="game-status" class="mb-4">
+        <h2 class="text-xl my-10 text-violet-500">
+          Current Player: <span id="current-player">A</span>
+        </h2>
+      </div>
+      <div id="board" class="grid grid-cols-5 gap-2 mb-4 "></div>
+      <div id="initial-message" class="mb-4">
+        <p class=" text-green-600 text-sm my-5">Select the first player A to make the buttons visible</p>
+      </div>
+      
+      <div id="selected-piece" class="text-green-600 text-sm my-5">Selected: None</div>
+      <div id="move-buttons" class="space-x-2">
+            <!-- dynamically genrated -->
+    </div>
+      <div id="move-history" class="mt-4 text-left text-center">
+        <h3 class="text-xl font-bold">Move History</h3>
+        <ul id="history-list" class="list-disc ml-6"></ul>
+      </div>
+    </div>
+</div>
+
+<footer>
+    <div class="flex justify-center mx-auto items-center w-96 h-96 rounded-lg border-4 border-violet-600 overflow-hidden">
+        <img src="{% static 'chess/images/mudasirr.jpg' %}" alt="Image" class="object-cover w-full h-full">
+    </div>
+    <div class="">
+        <h1 class="text-6xl text-center text-violet-600 font-extrabold pt-10 pb-3">Mudasir Mushtaq</h1>
+        <p class="text-lg text-center text-violet-400 hover:text-violet-600 "><a href="https://mudasirmattoo.github.io/portfolio/" target="_blank">Personal Portfolio link</a></p>
+    </div>
+
+    <div class="bg-gradient-to-b from-black to-zinc-800" id="footer" >
+
+        
+        <div class="w-3/4 mx-auto md:flex md:justify-between mt-28 mb-10">
+            <div>
+                <h1 class="text-white text-7xl md:text-9xl font-bold">Let's keep <br> in touch</h1>
+                <h1 class="text-gray-500 text-xl md:text-3xl font-thin py-3">Find me on any of these socials </h1>
+            </div>
+            <div class="flex flex-col ">
+                <button
+                    class="text-white font-bold text-xl md:text-3xl bg-gradient-to-r from-violet-800 to-violet-600 p-3 rounded-lg w-40 md:w-52 mx-auto mt-10 md:mt-32">Contact
+                    Me</button>
+                <div class="flex space-x-36 mt-10 md:mt-20">
+                    <a href=""><i class="fa-brands fa-github text-2xl text-violet-600"></i></a>
+                    <a href=""><i class="fa-solid fa-envelope text-2xl text-violet-600"></i></a>
+                    <a href=""><i class="fa-brands fa-instagram text-2xl text-violet-600"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <br>
+        <hr class="w-2/4 mx-auto ">
+        <br>
+
+        <h1 class="text-gray-500 text-center">© Copyright (Mudasir Mushtaq)</h1>
+
+    </div>
+</footer>
+    <script>
+      const initialState = [
+        ["A-P1", "A-P2", "A-H1", "A-H2", "A-P3"],
+        [null, null, null, null, null],
+        [null, null, null, null, null],
+        [null, null, null, null, null],
+        ["B-P1", "B-P2", "B-H1", "B-H2", "B-P3"],
+      ];
+
+      let currentPlayer = "A";
+      let selectedPiece = null;
+      let gameState = JSON.parse(JSON.stringify(initialState));
+
+      // Render the initial board
+      renderBoard(gameState);
+
+      function renderBoard(state) {
+        const board = document.getElementById("board");
+        board.innerHTML = "";
+
+        state.forEach((row, rowIndex) => {
+          row.forEach((cell, cellIndex) => {
+            const cellElement = document.createElement("div");
+            cellElement.classList.add(
+              "cell",
+              "border",
+              "rounded",
+              "p-2",
+              "h-12",
+              "w-12",
+              "flex",
+              "items-center",
+              "justify-center"
+            );
+            cellElement.style.cursor = "pointer";
+            cellElement.dataset.row = rowIndex;
+            cellElement.dataset.col = cellIndex;
+
+            if (cell !== null) {
+              cellElement.textContent = cell;
+              cellElement.classList.add(
+                cell.startsWith("A") ? "bg-violet-600" : "bg-orange-600"
+              );
+            } else {
+              cellElement.classList.add("bg-gray-700");
+            }
+
+            cellElement.addEventListener("click", () =>
+              selectPiece(cellElement, rowIndex, cellIndex)
+            );
+            board.appendChild(cellElement);
+          });
+        });
+      }
+
+      function selectPiece(cellElement, row, col) {
+        const piece = gameState[row][col];
+        if (piece && piece.startsWith(currentPlayer)) {
+          selectedPiece = { piece, row, col };
+          document.getElementById(
+            "selected-piece"
+          ).textContent = `Selected: ${piece}`;
+          
+          document.getElementById("initial-message").style.display = "none";
+
+          updateMoveButtons(piece.split('-')[1]);
+        }
+      }
+
+      function updateMoveButtons(pieceType) {
+        const moveButtonsContainer = document.getElementById("move-buttons");
+        moveButtonsContainer.innerHTML = '';
+
+        let moveOptions = [];
+        if (pieceType.startsWith("P")) {
+          moveOptions = ['L', 'R', 'F', 'B'];
+        } else if (pieceType.startsWith("H1")) {
+          moveOptions = ['L', 'R', 'F', 'B'];
+        } else if (pieceType.startsWith("H2")) {
+          moveOptions = ['FL', 'FR', 'BL', 'BR'];
+        }
+
+        moveOptions.forEach(option => {
+          const button = document.createElement('button');
+          button.innerText = option;
+          button.className = 'bg-blue-500 px-4 py-1 rounded';
+          button.onclick = () => move(option);
+          moveButtonsContainer.appendChild(button);
+        });
+      }
+
+      function move(direction) {
+        if (!selectedPiece) return;
+
+        let { piece, row, col } = selectedPiece;
+        const pieceType = piece.split("-")[1];
+        let newRow = row,
+            newCol = col;
+
+        if (pieceType.startsWith("P")) {
+
+          switch (direction) {
+            case "L":
+              newCol--;
+              break;
+            case "R":
+              newCol++;
+              break;
+            case "F":
+              newRow--;
+              break; 
+            case "B":
+              newRow++;
+              break; 
+          }
+        } else if (pieceType.startsWith("H1")) {
+
+            switch (direction) {
+            case "L":
+              newCol -= 2;
+              break;
+            case "R":
+              newCol += 2;
+              break;
+            case "F":
+              newRow -= 2;
+              break;
+            case "B":
+              newRow += 2;
+              break;
+          }
+          captureInPath(row, col, newRow, newCol);
+        } else if (pieceType.startsWith("H2")) {
+
+            switch (direction) {
+            case "FL":
+              newRow -= 2;
+              newCol -= 2;
+              break;
+            case "FR":
+              newRow -= 2;
+              newCol += 2;
+              break;
+            case "BL":
+              newRow += 2;
+              newCol -= 2;
+              break;
+            case "BR":
+              newRow += 2;
+              newCol += 2;
+              break;
+          }
+          captureInPath(row, col, newRow, newCol);
+        }
+
+        if (isMoveValid(newRow, newCol)) {
+          executeMove(piece, row, col, newRow, newCol, direction);
+          checkWinCondition();
+          switchPlayer();
+        } else {
+          alert("Invalid move, please try again.");
+        }
+      }
+
+      function captureInPath(startRow, startCol, endRow, endCol) {
+        let dRow = Math.sign(endRow - startRow);
+        let dCol = Math.sign(endCol - startCol);
+        let currentRow = startRow + dRow,
+            currentCol = startCol + dCol;
+
+        while (currentRow !== endRow || currentCol !== endCol) {
+          let pieceAtPosition = getPieceAtPosition(currentRow, currentCol);
+          if (pieceAtPosition && !pieceAtPosition.startsWith(currentPlayer)) {
+            removePiece(pieceAtPosition);
+            addMoveToHistory(
+              `${selectedPiece.piece}-${direction} (Captured ${pieceAtPosition})`
+            );
+          }
+          currentRow += dRow;
+          currentCol += dCol;
+        }
+      }
+
+      function isMoveValid(newRow, newCol) {
+        return (
+          newRow >= 0 &&
+          newRow < 5 &&
+          newCol >= 0 &&
+          newCol < 5 &&
+          (!gameState[newRow][newCol] ||
+            !gameState[newRow][newCol].startsWith(currentPlayer))
+        );
+      }
+
+      function executeMove(piece, oldRow, oldCol, newRow, newCol, direction) {
+        if (gameState[newRow][newCol]) {
+
+            document.getElementById(
+            "history-list"
+          ).innerHTML += `<li class="text-green-600">${piece}: ${direction} (Captured ${gameState[newRow][newCol]})</li>`;
+        } else {
+          document.getElementById(
+            "history-list"
+          ).innerHTML += `<li>${piece}: ${direction}</li>`;
+        }
+
+        gameState[oldRow][oldCol] = null;
+        gameState[newRow][newCol] = piece;
+        renderBoard(gameState);
+        selectedPiece = null;
+        document.getElementById("selected-piece").textContent =
+          "Selected: None";
+      }
+
+      function switchPlayer() {
+        currentPlayer = currentPlayer === "A" ? "B" : "A";
+        document.getElementById("current-player").textContent = currentPlayer;
+      }
+
+      function checkWinCondition() {
+        const opponent = currentPlayer === "A" ? "B" : "A";
+        const opponentPieces = getAllPiecesForPlayer(opponent);
+
+        if (opponentPieces.length === 0) {
+          alert(`${currentPlayer} wins!`);
+          document.getElementById(
+            "status"
+          ).textContent = `${currentPlayer} wins!`;
+        }
+      }
+
+      function getAllPiecesForPlayer(player) {
+        return gameState.flat().filter(
+          (piece) => piece && piece.startsWith(player)
+        );
+      }
+
+      function getPieceAtPosition(row, col) {
+        return gameState[row][col];
+      }
+
+      function removePiece(piece) {
+        for (let i = 0; i < 5; i++) {
+          for (let j = 0; j < 5; j++) {
+            if (gameState[i][j] === piece) {
+              gameState[i][j] = null;
+              return;
+            }
+          }
+        }
+      }
+
+      function addMoveToHistory(moveDescription) {
+        const historyList = document.getElementById("history-list");
+        const listItem = document.createElement("li");
+        listItem.textContent = moveDescription;
+        historyList.appendChild(listItem);
+      }
+    </script>
+  </body>
+</html>
+
+
