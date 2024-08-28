@@ -55,6 +55,12 @@ python manage.py migrate .
 
 Run the Development Server.
 
+create a super user using createsuperuser
+
+add a game in the admin panel
+
 python manage.py runserver  .
 
-The application will be available at http://127.0.0.1:8000/.
+The application will be available at http://127.0.0.1:8000/game/<int:id>.
+
+
