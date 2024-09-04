@@ -46,7 +46,9 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate.
 
 Install Dependencies.
 
-pip install tailwind
+npm init -y .
+
+npm install tailwind
 
 pip install -r requirements.txt .
 
