@@ -76,7 +76,7 @@ pip install -r requirements.txt .
 Apply Migrations.
 
 
-python manage.py makeigrations .
+python manage.py makemigrations .
 
 
 python manage.py migrate .
@@ -87,8 +87,12 @@ create a super user using createsuperuser
 
 add a game in the admin panel
 
+in the game state enter initial state as :
+
+[["P1", null, null, null, "P2"], [null, "H1", null, "H2", null], [null, null, null, null, null], [null, "H2", null, "H1", null], ["P2", null, null, null, "P1"]]
+
 python manage.py runserver  .
 
-The application will be available at http://127.0.0.1:8000/game/<int:id>.
+The application will be available at http://127.0.0.1:8000/game/< int:id >,  where int:id will be 1 for you or the game id you have created.
 
 
