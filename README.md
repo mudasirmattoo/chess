@@ -37,9 +37,13 @@ git clone https://github.com/mudasirmattoo/chess.git  .
 
 
 cd chess.
+
+
 or download all the files of the repository and store in a folder .
 
+
 open that folder and 
+
 
 Set Up the Virtual Environment.
 
