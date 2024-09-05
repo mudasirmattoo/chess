@@ -35,7 +35,11 @@ Clone the Repository.
 
 git clone https://github.com/mudasirmattoo/chess.git  .
 
+
 cd chess.
+or download all the files of the repository and store in a folder .
+
+open that folder and 
 
 Set Up the Virtual Environment.
 
@@ -49,7 +53,11 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate.
 
 cd ..
 
-pip install django
+
+cd mysite .
+
+
+pip install django.
 
 
 Install Dependencies.
