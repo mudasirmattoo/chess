@@ -42,7 +42,7 @@ cd chess.
 or download all the files of the repository and store in a folder .
 
 
-open that folder and 
+open that folder in terminal and 
 
 
 Set Up the Virtual Environment.
