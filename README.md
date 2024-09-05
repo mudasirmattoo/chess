@@ -83,9 +83,11 @@ python manage.py migrate .
 
 Run the Development Server.
 
-create a super user using createsuperuser
+create a super user using createsuperuser using the command "python manage.py createsuperuser"
 
-add a game in the admin panel
+add a game in the admin panel by going to url : http://127.0.0.1:8000/admin
+
+
 
 in the game state enter initial state as :
 
