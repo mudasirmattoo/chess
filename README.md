@@ -42,7 +42,15 @@ Set Up the Virtual Environment.
 
 python -m venv env.
 
+cd env
+
 source venv/bin/activate  # On Windows: venv\Scripts\activate.
+
+
+cd ..
+
+pip install django
+
 
 Install Dependencies.
 
