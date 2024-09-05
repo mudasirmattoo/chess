@@ -1,5 +1,5 @@
 # chess
-The game is hosted on: 
+The game has been developed in Django Backend
 
 
 
